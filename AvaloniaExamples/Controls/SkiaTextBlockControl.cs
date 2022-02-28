@@ -36,11 +36,11 @@ namespace AvaloniaExamples.Controls
 
             SKPaint textpaint = new SKPaint() { Color = SKColors.White, TextSize = 32.0f };
             SKPoint textpos = new SKPoint(12, 64);
-            for (byte i = 0; i < (byte)Text.Length; i++)
+            for (byte i = 0; i < (byte)text.Length; i++)
             {
                 textpaint.Color = SKColor.FromHsl(rnd.Next(0, 360), 100, 50);
-                canvas.DrawText($"{Text[i]}", textpos, textpaint);
-                textpos.X += textpaint.MeasureText($"{Text[i]}"); ;
+                canvas.DrawText($"{text[i]}", textpos, textpaint);
+                textpos.X += textpaint.MeasureText($"{text[i]}"); ;
             }
         }
     }
