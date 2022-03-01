@@ -1,0 +1,54 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
+        xmlns:c="using:AvaloniaExamples.Controls"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="AvaloniaExamples.Views.SkiaCircleWindow"
+        Title="SkiaCircleWindow">
+  <Window.Styles>
+    <Style Selector="NumericUpDown">
+      <Setter Property="Width" Value="120"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style Selector="Slider">
+      <Setter Property="Width" Value="120"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+      <Setter Property="Margin" Value="0,-20,0,0"/>
+    </Style>
+  </Window.Styles>
+
+  <Grid RowDefinitions="Auto,48,1*" >
+
+    <md:MarkdownScrollViewer>
+      # Static Circle example
+
+      The control SkiaCircleControl is a transparent control which updates when X,Y,Radius changes.
+
+
+      ###*A curious behaviour*
+      If you place the circle before the stackpanel the values are 0 and taken inverse
+
+    </md:MarkdownScrollViewer>
+    
+    <StackPanel Orientation="Horizontal" Margin="4" Spacing="8" Grid.Row="1" >
+      <TextBlock Text="X" VerticalAlignment="Center"/>
+      <NumericUpDown Text="{Binding ElementName=CircleInstance, Path=X, Mode=TwoWay}" />
+      <Slider Minimum="1" Maximum="1000"  SmallChange="1"  Value="{Binding ElementName=CircleInstance, Path=X, Mode=TwoWay}"/>
+      
+      <TextBlock Text="Y" VerticalAlignment="Center"/>
+      <NumericUpDown Text="{Binding ElementName=CircleInstance, Path=Y, Mode=TwoWay}" />
+      <Slider Minimum="1" Maximum="1000" SmallChange="1" Value="{Binding ElementName=CircleInstance, Path=Y, Mode=TwoWay}"/>
+
+      <TextBlock Text="Radius" VerticalAlignment="Center"/>
+      <NumericUpDown Text="{Binding ElementName=CircleInstance, Path=Radius, Mode=TwoWay}" />
+      <Slider   Minimum="1" Maximum="1000" Value="{Binding ElementName=CircleInstance, Path=Radius, Mode=TwoWay}"/>
+    </StackPanel>
+
+    <Rectangle Width="1000" Height="1000" Grid.Row="2" Fill="AliceBlue" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+    <c:SkiaCircleControl x:Name="CircleInstance" Grid.Row="2" />
+    
+  </Grid>
+
+</Window>

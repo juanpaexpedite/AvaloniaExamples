@@ -17,7 +17,7 @@ namespace AvaloniaExamples
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new SkiaTextBlockWindow
+                desktop.MainWindow = new SkiaCircleWindow
                 {
                     
                 };

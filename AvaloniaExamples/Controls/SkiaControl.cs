@@ -4,6 +4,7 @@ using Avalonia.Media;
 using Avalonia.Platform;
 using Avalonia.Rendering.SceneGraph;
 using Avalonia.Skia;
+using Avalonia.Threading;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,8 @@ namespace AvaloniaExamples.Controls
 
         public void Update()
         {
-            operation.Bounds = this.Bounds;
+            //This is the rectangle that will be redrawn!
+            operation.Bounds = TransformedBounds.Value.Bounds;
 
             InvalidateVisual();
         }
