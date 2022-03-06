@@ -8,6 +8,7 @@ using Avalonia.Threading;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,16 +19,65 @@ namespace AvaloniaExamples.Controls
     {
         private DrawOperation operation;
 
-        public SkiaControl()
+        public SkiaControl() : this(33)
+        {
+
+        }
+
+        public SkiaControl(uint debouncingmilliseconds)
         {
             operation = new DrawOperation(Bounds, DrawOnCanvasOperation);
             ClipToBounds = true;
+
+            InitializeDebounce(debouncingmilliseconds);
+        }
+
+        /// <summary>
+        /// In case you have to call Update when SetAndRaise
+        /// </summary>
+        public void SetAndRaiseUpdate<T>(AvaloniaProperty<T> property, ref T field, T value)
+        {
+            if (SetAndRaise(property, ref field, value))
+            {
+                Update();
+            }
+        }
+
+        #region Debouncing
+        /// <summary>
+        /// In case you have to call Update with debouning
+        /// </summary>
+        public void SetAndRaiseUpdateDebounce<T>(AvaloniaProperty<T> property, ref T field, T value)
+        {
+            if (SetAndRaise(property, ref field, value))
+            {
+                debouncedog.Stop();
+                debouncedog.Start();
+            }
+        }
+
+        private System.Timers.Timer debouncedog;
+
+        private void InitializeDebounce(uint debouncingmiliseconds)
+        {
+            debouncedog= new System.Timers.Timer();
+            debouncedog.Interval = debouncingmiliseconds;
+            debouncedog.Elapsed += Debouncedog_Elapsed;
+        }
+        #endregion
+
+        private void Debouncedog_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Update();
         }
 
         public void Update()
         {
             //This is the rectangle that will be redrawn!
-            operation.Bounds = TransformedBounds.Value.Bounds;
+            if (TransformedBounds != null)
+            {
+                operation.Bounds = TransformedBounds.Value.Bounds;
+            }
 
             InvalidateVisual();
         }

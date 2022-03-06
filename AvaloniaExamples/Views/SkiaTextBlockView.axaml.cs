@@ -4,14 +4,11 @@ using Avalonia.Markup.Xaml;
 
 namespace AvaloniaExamples.Views
 {
-    public partial class SkiaTextBlockWindow : Window
+    public partial class SkiaTextBlockView : UserControl
     {
-        public SkiaTextBlockWindow()
+        public SkiaTextBlockView()
         {
             InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
         }
 
         private void InitializeComponent()

@@ -19,8 +19,11 @@
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Views\SkiaTextBlockWindow.axaml.cs">
-      <DependentUpon>SkiaTextBlockWindow.axaml</DependentUpon>
+    <Compile Update="Views\SkiaFontTextBlockView.axaml.cs">
+      <DependentUpon>SkiaFontTextBlockView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\SkiaTextBlockView.axaml.cs">
+      <DependentUpon>SkiaTextBlockView.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

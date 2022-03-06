@@ -35,15 +35,18 @@
     <StackPanel Orientation="Horizontal" Margin="4" Spacing="8" Grid.Row="1" >
       <TextBlock Text="X" VerticalAlignment="Center"/>
       <NumericUpDown Text="{Binding ElementName=CircleInstance, Path=X, Mode=TwoWay}" />
-      <Slider Minimum="1" Maximum="1000"  SmallChange="1"  Value="{Binding ElementName=CircleInstance, Path=X, Mode=TwoWay}"/>
+      <Slider Minimum="1" Maximum="1000"  SmallChange="1"  
+              Value="{Binding ElementName=CircleInstance, Path=X, Mode=TwoWay}"/>
       
       <TextBlock Text="Y" VerticalAlignment="Center"/>
       <NumericUpDown Text="{Binding ElementName=CircleInstance, Path=Y, Mode=TwoWay}" />
-      <Slider Minimum="1" Maximum="1000" SmallChange="1" Value="{Binding ElementName=CircleInstance, Path=Y, Mode=TwoWay}"/>
+      <Slider Minimum="1" Maximum="1000" SmallChange="1" 
+              Value="{Binding ElementName=CircleInstance, Path=Y, Mode=TwoWay}"/>
 
       <TextBlock Text="Radius" VerticalAlignment="Center"/>
       <NumericUpDown Text="{Binding ElementName=CircleInstance, Path=Radius, Mode=TwoWay}" />
-      <Slider   Minimum="1" Maximum="1000" Value="{Binding ElementName=CircleInstance, Path=Radius, Mode=TwoWay}"/>
+      <Slider   Minimum="1" Maximum="1000" 
+                Value="{Binding ElementName=CircleInstance, Path=Radius, Mode=TwoWay}"/>
     </StackPanel>
 
     <Rectangle Width="1000" Height="1000" Grid.Row="2" Fill="AliceBlue" VerticalAlignment="Top" HorizontalAlignment="Left"/>

@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AvaloniaExamples.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:c="using:AvaloniaExamples.Controls"
+         xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="AvaloniaExamples.Views.SkiaTextBlockView"
+       >
+
+
+  <Grid RowDefinitions="Auto,32,1*" >
+    <md:MarkdownScrollViewer >
+      This is the most basic example, change the textbox text to make the binding reflect updates
+      in the Skia Control
+
+      The property Text of the SkiaTextBlockControl calls SetAndRaiseUpdate instead of SetAndRaise
+      in order to update the Skia Control Render.
+
+      ```cs
+      public string Text
+      {
+        get => text;
+        set => SetAndRaiseUpdate(TextProperty, ref text, value);
+      }
+      ```
+    </md:MarkdownScrollViewer>
+
+    <TextBox Grid.Row="1" x:Name="TextBoxInput" Text="hello" Margin="0,0,0,12"/>
+    <c:SkiaTextBlockControl Grid.Row="2" Text="{Binding ElementName=TextBoxInput, Path=Text}"/>
+  </Grid>
+
+</UserControl>

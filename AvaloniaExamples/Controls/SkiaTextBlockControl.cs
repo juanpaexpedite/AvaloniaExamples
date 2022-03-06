@@ -17,15 +17,8 @@ namespace AvaloniaExamples.Controls
         private String text = "hello";
         public string Text
         {
-            get { return text; }
-            set
-            {
-                if(SetAndRaise(TextProperty, ref text, value))
-                {
-                    Update();
-                }
-                
-            }
+            get => text;
+            set => SetAndRaiseUpdate(TextProperty, ref text, value);
         }
         #endregion
 
@@ -34,7 +27,7 @@ namespace AvaloniaExamples.Controls
         {
             canvas.Clear(SKColors.Black);
 
-            SKPaint textpaint = new SKPaint() { Color = SKColors.White, TextSize = 32.0f };
+            SKPaint textpaint = new SKPaint() { Color = SKColors.White, TextSize = 64.0f };
             SKPoint textpos = new SKPoint(12, 64);
             for (byte i = 0; i < (byte)text.Length; i++)
             {

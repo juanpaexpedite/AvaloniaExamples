@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:c="using:AvaloniaExamples.Controls"
+              xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AvaloniaExamples.Views.SkiaFontBlurTextBlock">
+
+  <Grid RowDefinitions="Auto,Auto,1*" >
+    <md:MarkdownScrollViewer>
+      In this example you can choose the value of the blur in the text that will be updated
+      in a stable mode
+
+      ```cs
+      public uint Blurness
+      {
+        get => blurness;
+        set => SetAndRaiseUpdateDebounce(BlurnessProperty, ref blurness, value);
+      }
+      ```
+    </md:MarkdownScrollViewer>
+
+    <Grid  RowDefinitions="Auto,Auto,Auto, Auto" ColumnDefinitions="120,1*" Grid.Row="1" Margin="0,8,0,0">
+
+      <TextBlock Text="Font" />
+      <ComboBox SelectedIndex="0" x:Name="ComboBoxFonts" Margin="0,0,0,12" Grid.Column="1">
+        <ComboBoxItem>Arial</ComboBoxItem>
+        <ComboBoxItem>Consolas</ComboBoxItem>
+        <ComboBoxItem>Times New Roman</ComboBoxItem>
+      </ComboBox>
+
+      <TextBlock Text="Text" Margin="0,6,0,0" Grid.Row="1"/>
+      <TextBox x:Name="TextBoxInput" Text="hello" HorizontalAlignment="Left"  Width="200" Grid.Row="1" Grid.Column="1"/>
+
+      <TextBlock Text="Antialias" Margin="0,6,0,0" Grid.Row="2" />
+      <CheckBox x:Name="CheckBoxAntialias" IsChecked="True"  Grid.Row="2" Grid.Column="1"/>
+
+      <TextBlock Text="Blurness" Margin="0,6,0,0" Grid.Row="3" />
+      <Slider Grid.Row="3" Grid.Column="1" x:Name="BlurnessSlider" Margin="0,-12,0,0" Minimum="0" Maximum="10"  SmallChange="1"  LargeChange="2"/>
+    </Grid>
+
+    <c:SkiaTextBlockBlurFontControl   Grid.Row="2"
+                          FontFamily="{Binding ElementName=ComboBoxFonts, Path=SelectedItem.Content}"
+                          Text="{Binding ElementName=TextBoxInput, Path=Text}"
+                          Antialias="{Binding ElementName=CheckBoxAntialias, Path=IsChecked}"
+                          Blurness="{Binding ElementName=BlurnessSlider, Path=Value}"
+                          />
+
+
+
+  </Grid>
+
+</UserControl>
