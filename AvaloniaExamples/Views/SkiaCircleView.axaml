@@ -1,0 +1,78 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
+        xmlns:c="using:AvaloniaExamples.Controls"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="AvaloniaExamples.Views.SkiaCircleView"
+        >
+  <UserControl.Styles>
+    <Style Selector="NumericUpDown">
+      <Setter Property="Width" Value="120"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style Selector="Slider">
+      <Setter Property="Width" Value="120"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+      <Setter Property="Margin" Value="0,-20,0,0"/>
+    </Style>
+  </UserControl.Styles>
+
+  <Grid RowDefinitions="Auto,48,1*" >
+
+    <md:MarkdownScrollViewer>
+      The control SkiaCircleControl is a transparent skia loop control that calls to the Update and the DrawOnCanvasOperation.
+
+      ```cs
+      public override void Update()
+      {
+      X+= xvsign * velocity;
+      Y+= yvsign * velocity;
+
+      if(X less 0 || X more 320) { xvsign = -xvsign; }
+
+      if (Y less 0 || Y more 320) { yvsign = -yvsign; }
+      }
+      ```
+
+      ```cs
+      public override void DrawOnCanvasOperation(SKCanvas canvas)
+      {
+      circlepos.X = (float)x;
+      circlepos.Y = (float)y;
+      canvas.DrawCircle(circlepos, (float)radius, circlepaint);
+
+      }
+      ```
+
+    </md:MarkdownScrollViewer>
+    
+    <StackPanel Orientation="Horizontal" Margin="4" Spacing="8" Grid.Row="1" >
+      <TextBlock Text="X" VerticalAlignment="Center"/>
+      <NumericUpDown Value="{Binding ElementName=CircleInstance, Path=X, Mode=TwoWay}" />
+      <Slider Minimum="1" Maximum="1000"  SmallChange="1"  
+              Value="{Binding ElementName=CircleInstance, Path=X, Mode=TwoWay}"/>
+      
+      <TextBlock Text="Y" VerticalAlignment="Center"/>
+      <NumericUpDown Value="{Binding ElementName=CircleInstance, Path=Y, Mode=TwoWay}" />
+      <Slider Minimum="1" Maximum="1000" SmallChange="1" 
+              Value="{Binding ElementName=CircleInstance, Path=Y, Mode=TwoWay}"/>
+
+      <TextBlock Text="Radius" VerticalAlignment="Center"/>
+      <NumericUpDown Value="{Binding ElementName=RadiusSlider, Path=Value, Mode=TwoWay}" />
+      <Slider  x:Name="RadiusSlider" Minimum="1" Maximum="100" Value="16"/>
+
+      <TextBlock Text="Velocity" VerticalAlignment="Center"/>
+      <NumericUpDown x:Name="VelocityBlock" Value="2" />
+    </StackPanel>
+
+    <c:SkiaCircleControl x:Name="CircleInstance" Grid.Row="2" 
+                         Radius="{Binding ElementName=RadiusSlider, Path=Value}"
+                         Velocity="{Binding ElementName=VelocityBlock, Path=Value}" 
+                         VerticalAlignment="Top" HorizontalAlignment="Left"
+                         Width="320" Height="320" />
+    
+  </Grid>
+
+</UserControl>

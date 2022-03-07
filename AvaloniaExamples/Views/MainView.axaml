@@ -30,7 +30,10 @@
       </TabItem>
       <TabItem Header="Skia Font with Blur TextBlock">
         <v:SkiaFontBlurTextBlock/>
-      </TabItem>
+     </TabItem >
+      <TabItem Header="Skia Circle Loop Animation">
+        <v:SkiaCircleView/>
+      </TabItem >
      
     </TabControl>
   </Panel>

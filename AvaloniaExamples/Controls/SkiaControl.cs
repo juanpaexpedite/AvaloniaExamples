@@ -39,7 +39,7 @@ namespace AvaloniaExamples.Controls
         {
             if (SetAndRaise(property, ref field, value))
             {
-                Update();
+                Draw();
             }
         }
 
@@ -68,10 +68,10 @@ namespace AvaloniaExamples.Controls
 
         private void Debouncedog_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            Update();
+            Draw();
         }
 
-        public void Update()
+        public void Draw()
         {
             //This is the rectangle that will be redrawn!
             if (TransformedBounds != null)

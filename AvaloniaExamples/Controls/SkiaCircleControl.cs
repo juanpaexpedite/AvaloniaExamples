@@ -2,13 +2,14 @@
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AvaloniaExamples.Controls
 {
-    public class SkiaCircleControl : SkiaControl
+    public class SkiaCircleControl : SkiaLoopControl
     {
         #region X
         public static readonly DirectProperty<SkiaCircleControl, double> XProperty =
@@ -20,10 +21,7 @@ namespace AvaloniaExamples.Controls
             get { return x; }
             set
             {
-                if (SetAndRaise(XProperty, ref x, Math.Round(value)))
-                {
-                    Update();
-                }
+                SetAndRaise(XProperty, ref x, Math.Round(value));
             }
         }
         #endregion
@@ -38,10 +36,22 @@ namespace AvaloniaExamples.Controls
             get { return y; }
             set
             {
-                if (SetAndRaise(YProperty, ref y, Math.Round(value)))
-                {
-                    Update();
-                }
+                SetAndRaise(YProperty, ref y, Math.Round(value));
+            }
+        }
+        #endregion
+
+        #region Velocity
+        public static readonly DirectProperty<SkiaCircleControl, double> VelocityProperty =
+            AvaloniaProperty.RegisterDirect<SkiaCircleControl, double>(nameof(Velocity), o => o.Velocity, (o, v) => o.Velocity = v);
+
+        private double velocity = 2;
+        public double Velocity
+        {
+            get { return velocity; }
+            set
+            {
+                SetAndRaise(VelocityProperty, ref velocity, Math.Round(value));
             }
         }
         #endregion
@@ -56,19 +66,32 @@ namespace AvaloniaExamples.Controls
             get { return radius; }
             set
             {
-                if (SetAndRaise(RadiusProperty, ref radius, Math.Round(value)))
-                {
-                    Update();
-                }
+                SetAndRaise(RadiusProperty, ref radius, Math.Round(value));
             }
         }
         #endregion
 
+        private double xvsign=1;
+        private double yvsign=1;
+        public override void Update()
+        {
+            X+= xvsign * velocity;
+            Y+= yvsign * velocity;
+
+            if(X < 0 || X > 320) { xvsign = -xvsign; }
+
+            if (Y < 0 || Y > 320) { yvsign = -yvsign; }
+        }
+
+
+        SKPaint circlepaint = new SKPaint() { Color = SKColors.Blue };
+        SKPoint circlepos = new SKPoint();
         public override void DrawOnCanvasOperation(SKCanvas canvas)
         {
-            SKPaint circlepaint = new SKPaint() { Color = SKColors.Blue };
-            SKPoint circlepos = new SKPoint((float)x, (float)y);
+            circlepos.X = (float)x;
+            circlepos.Y = (float)y;
             canvas.DrawCircle(circlepos, (float)radius, circlepaint);
+
         }
     }
 }

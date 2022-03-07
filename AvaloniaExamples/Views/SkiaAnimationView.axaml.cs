@@ -4,14 +4,11 @@ using Avalonia.Markup.Xaml;
 
 namespace AvaloniaExamples.Views
 {
-    public partial class SkiaCircleWindow : Window
+    public partial class SkiaAnimationView : UserControl
     {
-        public SkiaCircleWindow()
+        public SkiaAnimationView()
         {
             InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
         }
 
         private void InitializeComponent()
