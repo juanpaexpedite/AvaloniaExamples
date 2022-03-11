@@ -60,7 +60,7 @@ namespace AvaloniaExamples.Controls
         }
         #endregion
 
-        public override void DrawOnCanvasOperation(SKCanvas canvas)
+        public override void Draw(SKCanvas canvas)
         {
             SKPaint textpaint = new SKPaint() { Color = SKColors.White, StrokeWidth=0, SubpixelText = true, IsAntialias = antialias, TextSize=64};
             SKFont textfont = new SKFont(SKTypeface.FromFamilyName(FontFamily), size: 64);

@@ -34,6 +34,9 @@
       <TabItem Header="Skia Circle Loop Animation">
         <v:SkiaCircleView/>
       </TabItem >
+      <TabItem Header="Skia OpenGL Shaders">
+        <v:SkiaGLView/>
+      </TabItem >
      
     </TabControl>
   </Panel>

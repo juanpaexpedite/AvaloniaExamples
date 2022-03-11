@@ -1,36 +1,32 @@
 ﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Media;
-using Avalonia.Platform;
-using Avalonia.Rendering.SceneGraph;
-using Avalonia.Skia;
+using Avalonia.Animation;
+using Avalonia.OpenGL;
+using Avalonia.OpenGL.Controls;
 using Avalonia.Threading;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace AvaloniaExamples.Controls
 {
-    public class SkiaControl : Control
-    {
-        private DrawOperation operation;
+	public class SkiaGLControl : OpenGlControlBase
+	{
+		public SkiaGLControl() : this(33)
+		{
 
-        public SkiaControl() : this(33)
-        {
+		}
 
-        }
+		public SkiaGLControl(uint debouncingmilliseconds)
+		{
+			ClipToBounds = true;
 
-        public SkiaControl(uint debouncingmilliseconds)
-        {
-            operation = new DrawOperation(Bounds, Draw);
-            ClipToBounds = true;
-
-            InitializeDebounce(debouncingmilliseconds);
-        }
+			InitializeDebounce(debouncingmilliseconds);
+		}
 
         /// <summary>
         /// In case you have to call Update when SetAndRaise
@@ -68,7 +64,7 @@ namespace AvaloniaExamples.Controls
 
         private void InitializeDebounce(uint debouncingmiliseconds)
         {
-            debouncedog= new System.Timers.Timer();
+            debouncedog = new System.Timers.Timer();
             debouncedog.Interval = debouncingmiliseconds;
             debouncedog.Elapsed += Debouncedog_Elapsed;
         }
@@ -85,51 +81,48 @@ namespace AvaloniaExamples.Controls
         /// </summary>
         public void InvalidateStable()
         {
-            //This is the rectangle that will be redrawn!
-            if (TransformedBounds != null)
-            {
-                operation.Bounds = TransformedBounds.Value.Bounds;
-            }
-
             InvalidateVisual();
         }
 
-        public virtual void Draw(SKCanvas canvas)
-        {
-            canvas.Clear(SKColors.Black);
-        }
 
-        public override void Render(DrawingContext context)
-        {
-            context.Custom(operation);
-        }
-    }
+#nullable disable
+        private GRGlInterface grGlInterface;
+		private GRContext grContext;
+		private SKSurface surface;
+		private SKCanvas canvas;
+#nullable enable
 
+		protected override void OnOpenGlInit(GlInterface gl, int fb)
+		{
+			grGlInterface = GRGlInterface.Create(gl.GetProcAddress);
+			grGlInterface.Validate();
+			grContext = GRContext.CreateGl(grGlInterface);
+			var renderTarget = new GRBackendRenderTarget((int)Width, (int)Height, 0, 8, new GRGlFramebufferInfo((uint)fb, SKColorType.Rgba8888.ToGlSizedFormat()));
+			surface = SKSurface.Create(grContext, renderTarget, GRSurfaceOrigin.TopLeft, SKColorType.Rgba8888);
+			canvas = surface.Canvas;
+			
+		}
+	
 
-    /// <summary>
-    /// No need to touch
-    /// </summary>
-    class DrawOperation : ICustomDrawOperation
-    {
+		protected override void OnOpenGlRender(GlInterface gl, int fb)
+		{
+			grContext.ResetContext();
+            canvas.Clear();
+			Draw(canvas);
+			canvas.Flush();
+		}
 
-        public DrawOperation(Rect bounds, Action<SKCanvas> DrawOnCanvasOperation)
-        {
-            this.Bounds = bounds;
-            this.drawoncanvasoperation = DrawOnCanvasOperation;
-        }
+		public virtual void Draw(SKCanvas canvas)
+		{
+			canvas.Clear(SKColors.Black);
+		}
 
-        #region ICustomDrawOperation
-        public Rect Bounds { get; set; }
-        public void Dispose() { }
-        public bool HitTest(Point p) => false;
-        public bool Equals(ICustomDrawOperation other) => false;
-        #endregion
-
-        private Action<SKCanvas> drawoncanvasoperation;
-
-        public void Render(IDrawingContextImpl context)
-        {
-            drawoncanvasoperation((context as ISkiaDrawingContextImpl)?.SkCanvas);
-        }
-    }
+		protected override void OnOpenGlDeinit(GlInterface gl, int fb)
+		{
+			canvas.Dispose();
+			surface.Dispose();
+			grContext.Dispose();
+			grGlInterface.Dispose();
+		}
+	}
 }

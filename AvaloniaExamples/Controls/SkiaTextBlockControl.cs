@@ -23,7 +23,7 @@ namespace AvaloniaExamples.Controls
         #endregion
 
         Random rnd = new Random();
-        public override void DrawOnCanvasOperation(SKCanvas canvas)
+        public override void Draw(SKCanvas canvas)
         {
             canvas.Clear(SKColors.Black);
 
