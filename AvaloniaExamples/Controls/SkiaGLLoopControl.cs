@@ -42,14 +42,9 @@ namespace AvaloniaExamples.Controls
 			}
 		}
 
-		float x = 0;
-		float y = 64;
-
-		private void Update()
+		public virtual void Update()
         {
-			x += 0.5f;
-			InvalidateVisual();
-
+			
 		}
 
 		private Clock clock;
@@ -75,80 +70,11 @@ namespace AvaloniaExamples.Controls
 			}
 		}
 
-		//protected override void OnOpenGlRender(GlInterface gl, int fb)
-		//{
-		//	grContext.ResetContext();
-		//	canvas.Clear(SKColors.Cyan);
-		//	using var red = new SKPaint { Color = SKColors.Red };
-		//	canvas.DrawCircle(x,y,32, red);
-		//	canvas.Flush();
-		//	//Dispatcher.UIThread.Post(InvalidateVisual, DispatcherPriority.Render);
-		//}
-
-		private const string PathToImages = @"D:\AVALONIA\AvaloniaExamples\AvaloniaExamples\Assets\";
-
 		protected override void OnOpenGlRender(GlInterface gl, int fb)
         {
 			grContext.ResetContext();
 			Draw(canvas);
 			canvas.Flush();
-		}
-
-		protected  void OldOnOpenGlRender(GlInterface gl, int fb)
-		{
-			grContext.ResetContext();
-			canvas.Clear(SKColors.Cyan);
-
-			using var blueShirt = SKImage.FromEncodedData(Path.Combine(PathToImages, "colorwheel.png"));
-			using var textureShader = blueShirt.ToShader();
-
-			var src = @"
-	uniform shader image; 
-	half4 main(float2 coord) {
-	coord.x += sin(coord.y / 3) * 4;
-	//return image.eval(coord);
-	return sample(image, coord);
-	}";
-
-			//uniform shader color_map;
-			//uniform float scale;
-			//uniform half exp;
-			//uniform float3 in_colors0;
-			//half4 main(float2 p)
-			//{
-			//	half4 texColor = sample(color_map, p);
-			//	if (length(abs(in_colors0 - pow(texColor.rgb, half3(exp)))) < scale)
-			//		discard;
-			//	return texColor;
-
-			using var effect = SKRuntimeEffect.Create(src, out var errorText);
-
-
-			var uniformSize = effect.UniformSize;
-
-			var uniforms = new SKRuntimeEffectUniforms(effect)
-			{
-			};
-
-            //var uniforms = new SKRuntimeEffectUniforms(effect)
-            //{
-
-            //	//["scale"] = 1.0f,
-            //	//["exp"] = 0.5f,
-            //	//["in_colors0"] = new[] { 1f, 1f, 1f },
-            //};
-
-            var children = new SKRuntimeEffectChildren(effect)
-            {
-                ["image"] = textureShader
-            };
-
-            using var shader = effect.ToShader(true, uniforms ,children);
-			using var paint = new SKPaint { Shader = shader };
-			canvas.DrawRect(SKRect.Create(400, 400), paint);
-
-			canvas.Flush();
-			//Dispatcher.UIThread.Post(InvalidateVisual, DispatcherPriority.Render);
 		}
 
 		public virtual void Draw(SKCanvas canvas)

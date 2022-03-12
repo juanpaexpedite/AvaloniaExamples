@@ -6,7 +6,7 @@
             xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AvaloniaExamples.Views.SkiaGLView">
-  <Grid RowDefinitions="Auto,Auto,1*" >
+  <Grid RowDefinitions="Auto,1*" >
     <md:MarkdownScrollViewer>
 
       Remember to add in Program.cs:
@@ -15,7 +15,9 @@
               
       Skia Shaders information here: https://skia.org/docs/user/sksl/
       
-      In this example DX and DY changes the deformation of the circle drawn in a Skia bitmap:
+      In this examples DX and DY changes the deformation of the circle drawn and the other of a bitmap:
+      
+      [NOTE:] (The file has 'build action' content and copy to behave like you open a file.)
       
       ```cs
 uniform float dx;
@@ -29,23 +31,33 @@ return sample(image, coord);
 
     </md:MarkdownScrollViewer>
 
-       <StackPanel Orientation="Horizontal" Margin="4" Spacing="8" Grid.Row="1" >
-      <TextBlock Text="DX" VerticalAlignment="Center"/>
-      <NumericUpDown Value="{Binding ElementName=CircleInstance, Path=X, Mode=TwoWay}" />
-    
+    <Grid Grid.Row="1" ColumnDefinitions="0.33*,0.33*,0.33*">
       
-      <TextBlock Text="DY" VerticalAlignment="Center"/>
-      <NumericUpDown Value="{Binding ElementName=CircleInstance, Path=Y, Mode=TwoWay}" />
-
-     
-    </StackPanel>
-
+      <Grid RowDefinitions="Auto, 1*">
+        <StackPanel Orientation="Horizontal" Margin="4" Spacing="8"  Height="32" >
+          <TextBlock Text="DX" VerticalAlignment="Center"/>
+          <NumericUpDown Value="{Binding ElementName=CircleInstance, Path=X, Mode=TwoWay}" Width="120"/>
+          <TextBlock Text="DY" VerticalAlignment="Center"/>
+          <NumericUpDown Value="{Binding ElementName=CircleInstance, Path=Y, Mode=TwoWay}" Width="120"/>
+            </StackPanel>
       
-    <Grid Grid.Row="2" >
-
-    <c:SkiaGLCircleControl x:Name="CircleInstance" Width="320" Height="320" 
+         <c:SkiaGLCircleControl x:Name="CircleInstance" Width="320" Height="320"  Grid.Row="1"
                      VerticalAlignment="Top" HorizontalAlignment="Left"/>
-
+      </Grid>
+    
+    
+     <Grid RowDefinitions="Auto, 1*" Grid.Column="1">
+        <StackPanel Orientation="Horizontal" Margin="4" Spacing="8"  Height="32">
+          <TextBlock Text="DX" VerticalAlignment="Center"/>
+          <NumericUpDown Value="{Binding ElementName=CircleInstance2, Path=X, Mode=TwoWay}" Width="120"/>
+          <TextBlock Text="DY" VerticalAlignment="Center"/>
+          <NumericUpDown Value="{Binding ElementName=CircleInstance2, Path=Y, Mode=TwoWay}" Width="120"/>
+            </StackPanel>
+      
+         <c:SkiaGLBitmapControl x:Name="CircleInstance2" Width="320" Height="320"  Grid.Row="1"
+                     VerticalAlignment="Top" HorizontalAlignment="Left"/>
+      </Grid>
+    
     </Grid>
 
 

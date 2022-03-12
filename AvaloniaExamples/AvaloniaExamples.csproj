@@ -7,8 +7,14 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
+    <AvaloniaResource Remove="Assets\colorwheel.png" />
     <None Remove=".gitignore" />
     <None Remove="Assets\colorwheel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\colorwheel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.12" />

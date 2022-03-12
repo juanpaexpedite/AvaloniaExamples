@@ -2,13 +2,14 @@
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AvaloniaExamples.Controls
 {
-    public class SkiaGLCircleControl : SkiaGLControl
+    public class SkiaGLBitmapControl : SkiaGLControl
     {
         #region X
         public static readonly DirectProperty<SkiaGLCircleControl, double> XProperty =
@@ -42,17 +43,9 @@ namespace AvaloniaExamples.Controls
 
         public override void Draw(SKCanvas canvas)
         {
-            //TODO: Check if I can avoid creating a previous bitmap and apply the shader over the canvas.
-
-            int margin = 16;
-            int hmargin = 8;
-            int size = 128;
-            int hsize = 64;
-            var bmp = new SKBitmap(size + margin, size + margin);
-            var bmpcanvas = new SKCanvas(bmp);
-            bmpcanvas.DrawCircle(hsize + hmargin, hsize + hmargin, hsize, new SKPaint() { Color = SKColors.Orange });
-
-            using var textureShader = bmp.ToShader();
+            var apppath = System.AppDomain.CurrentDomain.BaseDirectory;
+            using var colorwheel = SKImage.FromEncodedData(Path.Combine(apppath, "Assets\\colorwheel.png"));
+            using var textureShader = colorwheel.ToShader();
 
             var src = @"
                 uniform float dx;
@@ -70,10 +63,8 @@ namespace AvaloniaExamples.Controls
             var children = new SKRuntimeEffectChildren(effect) { ["image"] = textureShader };
 
             using var shader = effect.ToShader(true, uniforms, children);
-            using var paint = new SKPaint { Shader = shader};
-            canvas.DrawRect(SKRect.Create(bmp.Width, bmp.Height), paint);
+            using var paint = new SKPaint { Shader = shader };
+            canvas.DrawRect(SKRect.Create(colorwheel.Width, colorwheel.Height), paint);
         }
-
-        
     }
 }

@@ -37,6 +37,9 @@
       <TabItem Header="Skia OpenGL Shaders">
         <v:SkiaGLView/>
       </TabItem >
+      <TabItem Header="Skia OpenGL Loop Shaders">
+        <v:SkiaGLLoopView/>
+      </TabItem >
      
     </TabControl>
   </Panel>
