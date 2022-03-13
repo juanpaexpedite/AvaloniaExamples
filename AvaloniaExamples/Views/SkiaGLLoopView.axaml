@@ -6,12 +6,46 @@
              xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AvaloniaExamples.Views.SkiaGLLoopView">
-  <Grid >
-    
+  <Grid RowDefinitions="Auto,Auto,1*">
 
-   
+    <md:MarkdownScrollViewer>
 
-    <c:SkiaGLExampleLoopControl    Width="320" Height="320"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+      Remember to add in Program.cs:
+
+      .With(new Win32PlatformOptions { UseWgl = true })
+
+      Skia Shaders information here: https://skia.org/docs/user/sksl/
+
+      In this examples DX and DY changes the deformation of the circle drawn and the other of a bitmap:
+
+      [NOTE:] (The file has 'build action' content and copy to behave like you open a file.)
+
+      ```cs
+      uniform float dx;
+      uniform float dy;
+      uniform shader image;
+      half4 main(float2 coord) {
+      coord.x += sin(coord.y / dy) * dx;
+      return sample(image, coord);
+      }";
+      ```
+
+    </md:MarkdownScrollViewer>
+
+
+    <Grid Grid.Row="1">
+
+     
+        <StackPanel Orientation="Horizontal" Margin="4" Spacing="8"  Height="32" >
+          <TextBlock Text="Example" VerticalAlignment="Center"/>
+          <NumericUpDown Minimum="1" Maximum="3" Value="{Binding ElementName=SkiaGLExampleLoop, Path=Number, Mode=TwoWay}" Width="120"/>
+        </StackPanel>
+     
+      </Grid>
+
+    <Grid Grid.Row="2">
+    <c:SkiaGLExampleLoopControl x:Name="SkiaGLExampleLoop"   Width="320" Height="320"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+    </Grid>
 
 
 
