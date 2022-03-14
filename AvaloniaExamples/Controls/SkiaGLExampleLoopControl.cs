@@ -119,17 +119,14 @@ half4 main(vec2 fragcoord) {
 
             children = new SKRuntimeEffectChildren(effect) { };
 
-            shader = effect.ToShader(true, uniforms, children);
-            paint = new SKPaint { Shader = shader };
+            paint.Shader = effect.ToShader(true, uniforms, children);
         }
 
         private void UpdateExampleOne()
         {
             uniforms["iTime"] = (float)time;
             uniforms["iResolution"] = (float)this.Bounds.Height;
-            shader = effect.ToShader(true, uniforms, children);
-            paint = new SKPaint { Shader = shader };
-
+            paint.Shader = effect.ToShader(true, uniforms, children);
         }
 
         private void CreateExampleTwo()
@@ -160,16 +157,14 @@ for(float i=1.;i<7.;i++) {
 
             children = new SKRuntimeEffectChildren(effect) { };
 
-            shader = effect.ToShader(true, uniforms, children);
-            paint = new SKPaint { Shader = shader };
+            paint.Shader = effect.ToShader(true, uniforms, children);
         }
 
         private void UpdateExampleTwo()
         {
             uniforms["t"] = (float)time;
             uniforms["r"] = new float[2] { 32, 32 };
-            shader = effect.ToShader(true, uniforms, children);
-            paint = new SKPaint { Shader = shader };
+            paint.Shader = effect.ToShader(true, uniforms, children);
         }
 
         private void CreateExampleThree()
@@ -213,17 +208,15 @@ vec4 texture_color = vec4(0.192156862745098, 0.6627450980392157, 0.9333333333333
 
             children = new SKRuntimeEffectChildren(effect) { ["tex"] = textureShader };
 
-            shader = effect.ToShader(true, uniforms, children);
-            paint = new SKPaint { Shader = shader };
-           
+            paint.Shader = effect.ToShader(true, uniforms, children);
+
         }
 
         private void UpdateExampleThree()
         {
             uniforms["time"] = (float)time;
             uniforms["resolution"] = new float[2] { (float)this.Bounds.Width, (float)this.Bounds.Height };
-            shader = effect.ToShader(true, uniforms, children);
-            paint = new SKPaint { Shader = shader };
+            paint.Shader = effect.ToShader(true, uniforms, children);
         }
     }
 }
