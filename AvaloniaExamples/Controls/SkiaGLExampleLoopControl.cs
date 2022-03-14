@@ -20,7 +20,29 @@ namespace AvaloniaExamples.Controls
             get { return number; }
             set
             {
-                SetAndRaise(NumberProperty, ref number, value);
+                if(SetAndRaise(NumberProperty, ref number, value))
+                {
+                    CreateExample();
+                }
+            }
+        }
+
+        private void CreateExample()
+        {
+            switch (number)
+            {
+                case 1:
+                    CreateExampleOne();
+                    break;
+                case 2:
+                    CreateExampleTwo();
+                    break;
+                case 3:
+                    CreateExampleThree();
+                    break;
+                default:
+                    CreateExampleOne();
+                    break;
             }
         }
         #endregion
@@ -28,30 +50,44 @@ namespace AvaloniaExamples.Controls
         float time = 0;
         public override void Update()
         {
+            if (uniforms == null)
+            {
+                CreateExample();
+                return;
+            }
+                
+
             time += 0.01f;
+            
+
+            if(number == 1)
+            {
+                UpdateExampleOne();
+            }
+            else if(number == 2)
+            {
+                UpdateExampleTwo();
+            }
+            else if(number == 3)
+            {
+                UpdateExampleThree();
+            }
+
             base.Update();
         }
 
+
         public override void Draw(SKCanvas canvas)
         {
-            switch (number)
-            {
-                case 1:
-                    ExampleOne(canvas);
-                    break;
-                case 2:
-                    ExampleTwo(canvas);
-                    break;
-                case 3:
-                    ExampleThree(canvas);
-                    break;
-                default:
-                    ExampleOne(canvas);
-                    break;
-            }
+            canvas.DrawRect(SKRect.Create((int)this.Bounds.Width, (int)this.Bounds.Height), paint);
         }
 
-        private void ExampleOne(SKCanvas canvas)
+        SKRuntimeEffectUniforms uniforms;
+        SKPaint paint = new SKPaint() { Color = SKColors.Black };
+        SKShader shader;
+        SKRuntimeEffect effect;
+        SKRuntimeEffectChildren children;
+        private void CreateExampleOne()
         {
             //Example source: https://shaders.skia.org/ from https://twitter.com/notargs/status/1250468645030858753
 
@@ -76,21 +112,27 @@ half4 main(vec2 fragcoord) {
 }
 ";
 
-            using var effect = SKRuntimeEffect.Create(src, out var errorText);
+            effect = SKRuntimeEffect.Create(src, out var errorText);
             var uniformSize = effect.UniformSize;
 
-            var uniforms = new SKRuntimeEffectUniforms(effect) { ["iTime"] = (float)time, ["iResolution"] = (float)this.Bounds.Height };
+            uniforms = new SKRuntimeEffectUniforms(effect) { ["iTime"] = (float)time, ["iResolution"] = (float)this.Bounds.Height };
 
-            var children = new SKRuntimeEffectChildren(effect) { };
+            children = new SKRuntimeEffectChildren(effect) { };
 
-            using var shader = effect.ToShader(true, uniforms, children);
-            using var paint = new SKPaint { Shader = shader };
-
-
-            canvas.DrawRect(SKRect.Create((int)this.Bounds.Width, (int)this.Bounds.Height), paint);
+            shader = effect.ToShader(true, uniforms, children);
+            paint = new SKPaint { Shader = shader };
         }
 
-        private void ExampleTwo(SKCanvas canvas)
+        private void UpdateExampleOne()
+        {
+            uniforms["iTime"] = (float)time;
+            uniforms["iResolution"] = (float)this.Bounds.Height;
+            shader = effect.ToShader(true, uniforms, children);
+            paint = new SKPaint { Shader = shader };
+
+        }
+
+        private void CreateExampleTwo()
         {
             //Example source: https://twitter.com/nasana_x/status/1254091446333759488
 
@@ -111,21 +153,26 @@ for(float i=1.;i<7.;i++) {
 }
 ";
 
-            using var effect = SKRuntimeEffect.Create(src, out var errorText);
+            effect = SKRuntimeEffect.Create(src, out var errorText);
             var uniformSize = effect.UniformSize;
 
-            var uniforms = new SKRuntimeEffectUniforms(effect) { ["t"] = (float)time, ["r"] = new float[2] { 32, 32 } };
+            uniforms = new SKRuntimeEffectUniforms(effect) { ["t"] = (float)time, ["r"] = new float[2] { 32, 32 } };
 
-            var children = new SKRuntimeEffectChildren(effect) { };
+            children = new SKRuntimeEffectChildren(effect) { };
 
-            using var shader = effect.ToShader(true, uniforms, children);
-            using var paint = new SKPaint { Shader = shader };
-
-
-            canvas.DrawRect(SKRect.Create((int)this.Bounds.Width, (int)this.Bounds.Height), paint);
+            shader = effect.ToShader(true, uniforms, children);
+            paint = new SKPaint { Shader = shader };
         }
 
-        private void ExampleThree(SKCanvas canvas)
+        private void UpdateExampleTwo()
+        {
+            uniforms["t"] = (float)time;
+            uniforms["r"] = new float[2] { 32, 32 };
+            shader = effect.ToShader(true, uniforms, children);
+            paint = new SKPaint { Shader = shader };
+        }
+
+        private void CreateExampleThree()
         {
             //Example source: https://www.shadertoy.com/view/wt2GRt
 
@@ -133,7 +180,7 @@ for(float i=1.;i<7.;i++) {
             var bmpcanvas = new SKCanvas(bmp);
             bmpcanvas.DrawCircle(32,32,32, new SKPaint() { Color = SKColors.Orange });
 
-            using var textureShader = bmp.ToShader();
+            var textureShader = bmp.ToShader();
 
             var src = @"
 uniform float time;       // Shader playback time (s)
@@ -156,21 +203,27 @@ vec4 texture_color = vec4(0.192156862745098, 0.6627450980392157, 0.9333333333333
 }
 ";
 
-            using var effect = SKRuntimeEffect.Create(src, out var errorText);
+            effect = SKRuntimeEffect.Create(src, out var errorText);
             var uniformSize = effect.UniformSize;
 
-            var uniforms = new SKRuntimeEffectUniforms(effect) { 
+            uniforms = new SKRuntimeEffectUniforms(effect) { 
                 ["time"] = (float)time, 
                 ["resolution"] = new float[2] { (float)this.Bounds.Width, (float)this.Bounds.Height }
             };
 
-            var children = new SKRuntimeEffectChildren(effect) { ["tex"] = textureShader };
+            children = new SKRuntimeEffectChildren(effect) { ["tex"] = textureShader };
 
-            using var shader = effect.ToShader(true, uniforms, children);
-            using var paint = new SKPaint { Shader = shader };
+            shader = effect.ToShader(true, uniforms, children);
+            paint = new SKPaint { Shader = shader };
+           
+        }
 
-
-            canvas.DrawRect(SKRect.Create((int)this.Bounds.Width, (int)this.Bounds.Height), paint);
+        private void UpdateExampleThree()
+        {
+            uniforms["time"] = (float)time;
+            uniforms["resolution"] = new float[2] { (float)this.Bounds.Width, (float)this.Bounds.Height };
+            shader = effect.ToShader(true, uniforms, children);
+            paint = new SKPaint { Shader = shader };
         }
     }
 }
