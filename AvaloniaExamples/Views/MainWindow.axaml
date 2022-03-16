@@ -5,9 +5,10 @@
         xmlns:local="using:AvaloniaExamples.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="AvaloniaExamples.Views.MainWindow"
-        Title="MainWindow">
-
-  <Grid>
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Avalonia Examples"
+        Background="Transparent" TransparencyLevelHint="AcrylicBlur"  CornerRadius="12">
+  <Grid Background="Transparent">
     <local:MainView/>
   </Grid>
   

@@ -4,21 +4,16 @@ using Avalonia.Markup.Xaml;
 
 namespace AvaloniaExamples.Views
 {
-    public partial class MainWindow : Window
+    public partial class ChildWindowView : UserControl
     {
-        public MainWindow()
+        public ChildWindowView()
         {
             InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-
-           
         }
     }
 }

@@ -2,11 +2,11 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace AvaloniaExamples.Views
+namespace AvaloniaExamples.Windows
 {
-    public partial class MainWindow : Window
+    public partial class BlankWindow : Window
     {
-        public MainWindow()
+        public BlankWindow()
         {
             InitializeComponent();
 #if DEBUG
@@ -17,8 +17,6 @@ namespace AvaloniaExamples.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-
-           
         }
     }
 }

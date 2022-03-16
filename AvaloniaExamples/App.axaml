@@ -9,5 +9,7 @@
     <Application.Styles>
         <FluentTheme Mode="Dark"/>
       <StyleInclude Source="/Styles/SideBar.axaml" />
+
+  
     </Application.Styles>
 </Application>

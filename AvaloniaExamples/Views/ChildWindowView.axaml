@@ -1,0 +1,20 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AvaloniaExamples.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AvaloniaExamples.Views.ChildWindowView">
+  <UserControl.DataContext>
+    <vm:MainViewModel/>
+  </UserControl.DataContext>
+
+  <StackPanel>
+    <TextBlock Text="Child Example 320x320" Margin="0,0,12,12"/>
+    <Button Content="Open Window" Command="{Binding CreateChildWindowCommand}"/>
+
+    <TextBlock Text="Child Example Fullscreen" Margin="0,0,12,12"/>
+    <Button Content="Open FullScreen Window" Command="{Binding CreateChildFullSizeWindowCommand}"/>
+  </StackPanel>
+  
+</UserControl>

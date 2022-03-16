@@ -1,0 +1,19 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:c="using:AvaloniaExamples.Controls"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="AvaloniaExamples.Windows.BorderlessWindow"
+        HasSystemDecorations="False"
+        SystemDecorations="None"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        BorderThickness="0" BorderBrush="Transparent"
+        ClipToBounds="True" Padding="1"  CanResize="False"
+        Background="Transparent" TransparencyLevelHint="Transparent"  CornerRadius="12">
+  <Grid Background="Transparent">
+    <c:SkiaGLExampleLoopControl x:Name="SkiaGLExampleLoop"   Width="320" Height="320"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+  </Grid>
+</Window>

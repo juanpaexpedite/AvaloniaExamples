@@ -19,7 +19,7 @@ namespace AvaloniaExamples
             {
                 desktop.MainWindow = new MainWindow
                 {
-                    
+
                 };
             }
 

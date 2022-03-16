@@ -79,11 +79,12 @@ namespace AvaloniaExamples.Controls
 
         public override void Draw(SKCanvas canvas)
         {
+            canvas.Clear();
             canvas.DrawRect(SKRect.Create((int)this.Bounds.Width, (int)this.Bounds.Height), paint);
         }
 
         SKRuntimeEffectUniforms uniforms;
-        SKPaint paint = new SKPaint() { Color = SKColors.Black };
+        SKPaint paint = new SKPaint() {  };
         SKShader shader;
         SKRuntimeEffect effect;
         SKRuntimeEffectChildren children;
@@ -119,14 +120,14 @@ half4 main(vec2 fragcoord) {
 
             children = new SKRuntimeEffectChildren(effect) { };
 
-            paint.Shader = effect.ToShader(true, uniforms, children);
+            paint.Shader = effect.ToShader(false, uniforms, children);
         }
 
         private void UpdateExampleOne()
         {
             uniforms["iTime"] = (float)time;
             uniforms["iResolution"] = (float)this.Bounds.Height;
-            paint.Shader = effect.ToShader(true, uniforms, children);
+            paint.Shader = effect.ToShader(false, uniforms, children);
         }
 
         private void CreateExampleTwo()

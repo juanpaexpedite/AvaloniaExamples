@@ -33,13 +33,11 @@ namespace AvaloniaExamples.Controls
 
 			if (clock == null)
 			{
+				cspan = 0; lastspan = 0;
 				clock = new Clock();
 				clock.Subscribe(UpdateTime);
 			}
-			else
-			{
-				clock.PlayState = PlayState.Run;
-			}
+			
 		}
 
 		public virtual void Update()
@@ -86,6 +84,7 @@ namespace AvaloniaExamples.Controls
 		protected override void OnOpenGlDeinit(GlInterface gl, int fb)
 		{
 			clock.PlayState = PlayState.Stop;
+			clock = null;
 			canvas.Dispose();
 			surface.Dispose();
 			grContext.Dispose();
