@@ -9,10 +9,12 @@ namespace AvaloniaExamples.Managers
 {
     public class WindowsManager
     {
-        public static void CreateNewWindow<T>() where T : Window
+        public static Window CreateNewWindow<T>() where T : Window
         {
             var window = (Window)Activator.CreateInstance<T>();
             window.Show();
+
+            return window;
         }
     }
 }

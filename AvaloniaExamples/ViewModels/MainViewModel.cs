@@ -21,7 +21,8 @@ namespace AvaloniaExamples.ViewModels
         [ICommand]
         public void CreateChildFullSizeWindowCommand()
         {
-            WindowsManager.CreateNewWindow<FullScreenBorderlessWindow>();
+            var window = WindowsManager.CreateNewWindow<FullScreenBorderlessWindow>();
+            window.WindowState = Avalonia.Controls.WindowState.Maximized;
         }
     }
 }
