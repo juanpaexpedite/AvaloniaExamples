@@ -43,7 +43,7 @@ namespace AvaloniaExamples.Controls
         /// </summary>
         static SkiaBitmapControl()
         {
-            AffectsMeasure<SkiaBitmapCColorControl>(TransformedBoundsProperty);
+            AffectsMeasure<SkiaBitmapControl>(TransformedBoundsProperty);
         }
 
 
