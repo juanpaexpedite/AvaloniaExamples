@@ -28,6 +28,9 @@
       <TabItem Header="Skia Circle Loop Animation">
         <v:SkiaCircleView/>
       </TabItem >
+      <TabItem Header="Skia GetPixels">
+        <v:SkiaBitmapView/>
+      </TabItem >
       <TabItem Header="Skia OpenGL Shaders">
         <v:SkiaGLView/>
       </TabItem >

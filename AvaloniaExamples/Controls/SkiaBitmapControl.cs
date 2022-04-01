@@ -15,18 +15,41 @@ using System.Threading.Tasks;
 
 namespace AvaloniaExamples.Controls
 {
-    public class SkiaControl : Control
+
+    /// <summary>
+    /// In this case the control renders in a SKBitmap instead of the control itself.
+    /// After operate on rendertarget and allows postprocess, it draws on itself.
+    /// </summary>
+    public class SkiaBitmapControl : Control
     {
-        private DrawOperation operation;
+        /// <summary>
+        /// Call this inside the Update Method
+        /// </summary>
+        protected SKBitmap RenderTarget = new SKBitmap(1, 1);
 
-        public SkiaControl() : this(33)
+        /// <summary>
+        /// Call this inside the Update Method
+        /// </summary>
+        unsafe
+        protected uint* RenderTargetPtr { get => (uint*)RenderTarget.GetPixels(); }
+
+        public SkiaBitmapControl() : this(33)
         {
-
+           
         }
 
-        public SkiaControl(uint debouncingmilliseconds)
+        /// <summary>
+        /// Because the control is not rendered but into a bitmap we have to add when the size changes.
+        /// </summary>
+        static SkiaBitmapControl()
         {
-            operation = new DrawOperation(Bounds, Draw);
+            AffectsMeasure<SkiaBitmapCColorControl>(TransformedBoundsProperty);
+        }
+
+
+        public SkiaBitmapControl(uint debouncingmilliseconds)
+        {
+            operation = new DrawOperation(Bounds, DrawRenderTarget);
             ClipToBounds = true;
 
             InitializeDebounce(debouncingmilliseconds);
@@ -72,16 +95,31 @@ namespace AvaloniaExamples.Controls
 
         private void InitializeDebounce(uint debouncingmiliseconds)
         {
-            debouncedog= new System.Timers.Timer();
+            debouncedog = new System.Timers.Timer();
             debouncedog.Interval = debouncingmiliseconds;
             debouncedog.Elapsed += Debouncedog_Elapsed;
+           
         }
 
+        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+        {
+            Invalidate();
+            base.OnAttachedToVisualTree(e);
+        }
+
+        //TODO: Add in the other controls
         private void Debouncedog_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             InvalidateStable();
         }
 
+        /// <summary>
+        /// Call this in the constructor AffectsMeasure<SkiaBitmapCColorControl>(BoundsProperty);
+        /// </summary>
+        protected override void OnMeasureInvalidated()
+        {
+            Invalidate();
+        }
         #endregion
 
         /// <summary>
@@ -97,7 +135,39 @@ namespace AvaloniaExamples.Controls
                 operation.Bounds = TransformedBounds.Value.Bounds;
             }
 
+            PreProcessDraw();
+
+            using (var canvas = new SKCanvas(RenderTarget))
+            {
+                Draw(canvas);
+            }
+
+            PostProcessDraw();
+
             InvalidateVisual();
+        }
+
+        #region Draw RenderTarget in Control
+        private DrawOperation operation;
+        private SKPoint skzero = new SKPoint(0, 0);
+        private void DrawRenderTarget(SKCanvas canvas)
+        {
+            canvas.DrawBitmap(RenderTarget, skzero);
+        }
+        #endregion
+
+
+        public override void Render(DrawingContext context)
+        {
+            context.Custom(operation);
+        }
+
+        /// <summary>
+        /// Update here the rendertarget bitmap size for instance
+        /// </summary>
+        public virtual void PreProcessDraw()
+        {
+
         }
 
         public virtual void Draw(SKCanvas canvas)
@@ -105,37 +175,14 @@ namespace AvaloniaExamples.Controls
 
         }
 
-        //This is also called when the measure of the control changes
-        public override void Render(DrawingContext context)
+        /// <summary>
+        /// Update here the rendertarget bitmap
+        /// </summary>
+        public virtual void PostProcessDraw()
         {
-            context.Custom(operation);
+           
         }
-    }
-
-
-    /// <summary>
-    /// No need to touch
-    /// </summary>
-    class DrawOperation : ICustomDrawOperation
-    {
-        public DrawOperation(Rect bounds, Action<SKCanvas> DrawOnCanvasOperation)
-        {
-            this.Bounds = bounds;
-            this.drawoncanvasoperation = DrawOnCanvasOperation;
-        }
-
-        #region ICustomDrawOperation
-        public Rect Bounds { get; set; }
-        public void Dispose() { }
-        public bool HitTest(Point p) => false;
-        public bool Equals(ICustomDrawOperation other) => false;
-        #endregion
-
-        private Action<SKCanvas> drawoncanvasoperation;
-
-        public void Render(IDrawingContextImpl context)
-        {
-            drawoncanvasoperation((context as ISkiaDrawingContextImpl)?.SkCanvas);
-        }
+       
+      
     }
 }

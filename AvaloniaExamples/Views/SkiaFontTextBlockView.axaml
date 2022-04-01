@@ -12,7 +12,7 @@
 
 
   <Grid RowDefinitions="Auto,Auto,1*" >
-    <md:MarkdownScrollViewer>
+    <md:MarkdownScrollViewer Width="640" HorizontalAlignment="Left">
       In this example you can choose a font, antialias and blur, and the control is transparent.
 
       The properties Text,FontFamily,Antialias and Blud of the SkiaTextBlockFontControl calls SetAndRaiseUpdate instead of SetAndRaise

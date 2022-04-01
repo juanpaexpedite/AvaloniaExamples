@@ -91,7 +91,6 @@ namespace AvaloniaExamples.Controls
             circlepos.X = (float)x;
             circlepos.Y = (float)y;
             canvas.DrawCircle(circlepos, (float)radius, circlepaint);
-
         }
     }
 }

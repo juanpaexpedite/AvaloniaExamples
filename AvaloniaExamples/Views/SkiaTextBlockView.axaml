@@ -11,7 +11,7 @@
 
 
   <Grid RowDefinitions="Auto,32,1*" >
-    <md:MarkdownScrollViewer >
+    <md:MarkdownScrollViewer Width="640" HorizontalAlignment="Left">
       This is the most basic example, change the textbox text to make the binding reflect updates
       in the Skia Control
 

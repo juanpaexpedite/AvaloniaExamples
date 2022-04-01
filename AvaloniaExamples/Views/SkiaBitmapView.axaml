@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c="using:AvaloniaExamples.Controls"
+             xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
+             xmlns:vm="using:AvaloniaExamples.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AvaloniaExamples.Views.SkiaBitmapView">
+  <Grid RowDefinitions="Auto,1*" >
+    <md:MarkdownScrollViewer Width="640" HorizontalAlignment="Left">
+      In this example you can replace one color made in the canvas with another using the pointer
+
+      For easy access you have: PreProcessDraw, Draw and PostProcessDraw
+
+      1.- Preprocess: Create a new rendertarget bitmap with the bounds width and fix height;
+      
+      2.- Draw: Inside the canvas draw a orange circle.
+      
+      3.- Postprocess: Acesssing to the pointer you can change the orange color with other ones:
+
+      ```cs
+      for (int y = 0; y &lt; height; y++)
+                {
+                    for (int x = 0; x &lt; width; x++)
+                    {
+                        int p = x + y * width;
+                        if (*(sptr + p) == (uint)scolor)
+                        {
+                            *(sptr + p) = color;
+                        }
+                    }
+                    blue += 0.5f;
+                    color = (uint)new SKColor(0, 0, (byte)blue);
+                }
+      ```
+    </md:MarkdownScrollViewer>
+
+   
+
+    <Grid Grid.Row="2" >
+      <c:SkiaBitmapCColorControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+    </Grid>
+
+  </Grid>
+
+</UserControl>

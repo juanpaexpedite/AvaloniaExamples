@@ -8,7 +8,7 @@
              x:Class="AvaloniaExamples.Views.SkiaGLLoopView">
   <Grid RowDefinitions="Auto,Auto,1*">
 
-    <md:MarkdownScrollViewer>
+    <md:MarkdownScrollViewer Width="640" HorizontalAlignment="Left">
 
       Remember to add in Program.cs:
 
@@ -38,7 +38,7 @@
      
         <StackPanel Orientation="Horizontal" Margin="4" Spacing="8"  Height="32" >
           <TextBlock Text="Example" VerticalAlignment="Center"/>
-          <NumericUpDown Minimum="1" Maximum="3" Value="{Binding ElementName=SkiaGLExampleLoop, Path=Number, Mode=TwoWay}" Width="120"/>
+          <NumericUpDown Minimum="1" Maximum="4" Value="{Binding ElementName=SkiaGLExampleLoop, Path=Number, Mode=TwoWay}" Width="120"/>
         </StackPanel>
      
       </Grid>

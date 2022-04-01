@@ -7,26 +7,27 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AvaloniaExamples.Views.SkiaGLView">
   <Grid RowDefinitions="Auto,1*" >
-    <md:MarkdownScrollViewer>
+    <md:MarkdownScrollViewer Width="640" HorizontalAlignment="Left">
 
       Remember to add in Program.cs:
 
-              .With(new Win32PlatformOptions { UseWgl = true })
-              
+      .With(new Win32PlatformOptions { UseWgl = true })
+
       Skia Shaders information here: https://skia.org/docs/user/sksl/
-      
+
       In this examples DX and DY changes the deformation of the circle drawn and the other of a bitmap:
-      
+
       [NOTE:] (The file has 'build action' content and copy to behave like you open a file.)
-      
+      [NOTE2:] In order to render its right size place the gl control inside a grid
+
       ```cs
-uniform float dx;
-uniform float dy;
-uniform shader image; 
-half4 main(float2 coord) {
-coord.x += sin(coord.y / dy) * dx;
-return sample(image, coord);
-}";
+      uniform float dx;
+      uniform float dy;
+      uniform shader image;
+      half4 main(float2 coord) {
+      coord.x += sin(coord.y / dy) * dx;
+      return sample(image, coord);
+      }";
       ```
 
     </md:MarkdownScrollViewer>
@@ -40,9 +41,11 @@ return sample(image, coord);
           <TextBlock Text="DY" VerticalAlignment="Center"/>
           <NumericUpDown Value="{Binding ElementName=CircleInstance, Path=Y, Mode=TwoWay}" Width="120"/>
             </StackPanel>
-      
-         <c:SkiaGLCircleControl x:Name="CircleInstance" Width="320" Height="320"  Grid.Row="1"
+
+        <Grid Grid.Row="1" Background="Transparent">
+         <c:SkiaGLCircleControl x:Name="CircleInstance" Width="320" Height="320"  
                      VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        </Grid>
       </Grid>
     
     
@@ -53,9 +56,22 @@ return sample(image, coord);
           <TextBlock Text="DY" VerticalAlignment="Center"/>
           <NumericUpDown Value="{Binding ElementName=CircleInstance2, Path=Y, Mode=TwoWay}" Width="120"/>
             </StackPanel>
-      
-         <c:SkiaGLBitmapControl x:Name="CircleInstance2" Width="320" Height="320"  Grid.Row="1"
+
+       <Grid Grid.Row="1" Background="Transparent">
+         <c:SkiaGLBitmapControl x:Name="CircleInstance2" Width="320" Height="320" 
                      VerticalAlignment="Top" HorizontalAlignment="Left"/>
+       </Grid>
+      </Grid>
+
+      <Grid RowDefinitions="Auto, 1*" Grid.Column="2">
+        <StackPanel Orientation="Horizontal" Margin="4" Spacing="8"  Height="32">
+          
+        </StackPanel>
+
+        <Grid Grid.Row="1" Background="Transparent">
+        <c:SkiaGLDitherControl x:Name="CircleInstance3" Width="320" Height="320"  Grid.Row="1"
+                    VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        </Grid>
       </Grid>
     
     </Grid>

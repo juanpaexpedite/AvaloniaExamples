@@ -12,8 +12,11 @@
         ExtendClientAreaTitleBarHeightHint="-1"
         BorderThickness="0" BorderBrush="Transparent"
         ClipToBounds="True" Padding="1"  CanResize="False"
-        Background="Transparent" TransparencyLevelHint="Transparent"  CornerRadius="12">
+        Background="Transparent" TransparencyLevelHint="Transparent"  CornerRadius="12"
+        x:Name="RootWindow">
   <Grid Background="Transparent">
-    <c:SkiaGLExampleLoopControl x:Name="SkiaGLExampleLoop"   Width="320" Height="320"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+    <c:SkiaGLExampleLoopControl x:Name="SkiaGLExampleLoop"  
+                                Width="{Binding ElementName=RootWindow, Path=Width}" 
+                                Height="{Binding ElementName=RootWindow, Path=Height}"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
   </Grid>
 </Window>

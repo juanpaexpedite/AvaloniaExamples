@@ -94,9 +94,9 @@ namespace AvaloniaExamples.Controls
 
         public virtual void DrawOnCanvasOperation(SKCanvas canvas)
         {
-            canvas.Clear(SKColors.Black);
+            //Do nothing because can cover what was painted if called base.Draw
         }
-       
+
 
         public override void Render(DrawingContext context)
         {

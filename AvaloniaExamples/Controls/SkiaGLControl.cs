@@ -90,21 +90,40 @@ namespace AvaloniaExamples.Controls
 		private GRContext grContext;
 		private SKSurface surface;
 		private SKCanvas canvas;
+        private GRBackendRenderTarget renderTarget;
+        private uint _fb;
 #nullable enable
 
-		protected override void OnOpenGlInit(GlInterface gl, int fb)
+        private void InitCanvas()
+        {
+            renderTarget = new GRBackendRenderTarget((int)Width, (int)Height, 0, 8, new GRGlFramebufferInfo(_fb, SKColorType.Rgba8888.ToGlSizedFormat()));
+            surface = SKSurface.Create(grContext, renderTarget, GRSurfaceOrigin.TopLeft, SKColorType.Rgba8888);
+            canvas = surface.Canvas;
+        }
+
+        protected override void OnOpenGlInit(GlInterface gl, int fb)
 		{
-			grGlInterface = GRGlInterface.Create(gl.GetProcAddress);
+            _fb = (uint)fb;
+            grGlInterface = GRGlInterface.Create(gl.GetProcAddress);
 			grGlInterface.Validate();
 			grContext = GRContext.CreateGl(grGlInterface);
-			var renderTarget = new GRBackendRenderTarget((int)Width, (int)Height, 0, 8, new GRGlFramebufferInfo((uint)fb, SKColorType.Rgba8888.ToGlSizedFormat()));
-			surface = SKSurface.Create(grContext, renderTarget, GRSurfaceOrigin.TopLeft, SKColorType.Rgba8888);
-			canvas = surface.Canvas;
+            InitCanvas();
 			
 		}
-	
 
-		protected override void OnOpenGlRender(GlInterface gl, int fb)
+        protected override void OnMeasureInvalidated()
+        {
+            //On some situations can be called OnMeasureInvalidated Before OnOpenGlInit so this solves that.
+            if (grGlInterface.Handle != IntPtr.Zero)
+            {
+                InitCanvas();
+            }
+            base.OnMeasureInvalidated();
+        }
+
+
+
+        protected override void OnOpenGlRender(GlInterface gl, int fb)
 		{
 			grContext.ResetContext();
             canvas.Clear();

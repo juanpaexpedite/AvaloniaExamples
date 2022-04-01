@@ -8,7 +8,7 @@
              x:Class="AvaloniaExamples.Views.SkiaFontBlurTextBlock">
 
   <Grid RowDefinitions="Auto,Auto,1*" >
-    <md:MarkdownScrollViewer>
+    <md:MarkdownScrollViewer Width="640" HorizontalAlignment="Left">
       In this example you can choose the value of the blur in the text that will be updated
       in a stable mode
 

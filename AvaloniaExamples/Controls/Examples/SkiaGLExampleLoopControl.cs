@@ -85,7 +85,6 @@ namespace AvaloniaExamples.Controls
 
         SKRuntimeEffectUniforms uniforms;
         SKPaint paint = new SKPaint() {  };
-        SKShader shader;
         SKRuntimeEffect effect;
         SKRuntimeEffectChildren children;
         private void CreateExampleOne()
@@ -114,13 +113,12 @@ half4 main(vec2 fragcoord) {
 ";
 
             effect = SKRuntimeEffect.Create(src, out var errorText);
-            var uniformSize = effect.UniformSize;
 
             uniforms = new SKRuntimeEffectUniforms(effect) { ["iTime"] = (float)time, ["iResolution"] = (float)this.Bounds.Height };
 
             children = new SKRuntimeEffectChildren(effect) { };
 
-            paint.Shader = effect.ToShader(false, uniforms, children);
+            paint.Shader = effect.ToShader(true, uniforms, children);
         }
 
         private void UpdateExampleOne()
@@ -219,5 +217,9 @@ vec4 texture_color = vec4(0.192156862745098, 0.6627450980392157, 0.9333333333333
             uniforms["resolution"] = new float[2] { (float)this.Bounds.Width, (float)this.Bounds.Height };
             paint.Shader = effect.ToShader(true, uniforms, children);
         }
+
+        
+
+       
     }
 }
