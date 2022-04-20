@@ -1,14 +1,21 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:AvaloniaExamples"
+             xmlns:vm="using:AvaloniaExamples.ViewModels"
              x:Class="AvaloniaExamples.App">
+  <Application.Resources>
+    <vm:MainViewModel x:Key="MainViewModel"/>
+  </Application.Resources>
+ 
+  
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
 
     <Application.Styles>
-        <FluentTheme Mode="Dark"/>
+      <FluentTheme Mode="Dark"/>
       <StyleInclude Source="/Styles/SideBar.axaml" />
+
 
   
     </Application.Styles>

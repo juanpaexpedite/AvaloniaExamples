@@ -8,6 +8,9 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="Avalonia Examples"
         Background="#AA333344" TransparencyLevelHint="AcrylicBlur"  CornerRadius="12">
+
+ 
+  
   <Grid Background="Transparent">
     <local:MainView/>
   </Grid>

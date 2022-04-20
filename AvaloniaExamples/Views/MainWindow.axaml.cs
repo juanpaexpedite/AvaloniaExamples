@@ -20,5 +20,6 @@ namespace AvaloniaExamples.Views
 
            
         }
+
     }
 }
